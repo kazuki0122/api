@@ -9,4 +9,8 @@ class User < ActiveRecord::Base
 
   has_many :group_users
   has_many :groups, through: :group_users
+
+  validates :phone_number, presence: true
+  validates :phone_number, numericality: {message: 'はハイフン無しにしてください'}
+  validates :phone_number, length: { maximum: 11 , message: 'の値が不正です'}
 end
