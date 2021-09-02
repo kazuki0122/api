@@ -30,7 +30,7 @@ services:
     depends_on: 
       - db
     links:
-      - db
+      - db 
 
   # front:
   #   build: 
