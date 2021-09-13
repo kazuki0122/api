@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_01_032008) do
+ActiveRecord::Schema.define(version: 2021_09_06_070124) do
+
+  create_table "friend_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "from_id"
+    t.bigint "to_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_id"], name: "index_friend_requests_on_from_id"
+    t.index ["to_id"], name: "index_friend_requests_on_to_id"
+  end
+
+  create_table "friends", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "from_id"
+    t.bigint "to_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_id"], name: "index_friends_on_from_id"
+    t.index ["to_id"], name: "index_friends_on_to_id"
+  end
 
   create_table "group_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "group_id"
@@ -44,13 +62,17 @@ ActiveRecord::Schema.define(version: 2021_09_01_032008) do
     t.string "nickname"
     t.string "image"
     t.string "email"
+    t.string "user_id"
+    t.string "phone_number"
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+    t.index ["user_id"], name: "index_users_on_user_id", unique: true
   end
 
   add_foreign_key "group_users", "groups"
