@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       resources :test, only: :index
       resources :groups, only: [:index, :create, :show]
       resources :users, only: :index
+      resources :friend_requests, only: [:index, :create]
+      resources :friends, only: [:index, :create]
 
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/auth/registrations'
