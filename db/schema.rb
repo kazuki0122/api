@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_070124) do
     t.string "nickname"
     t.string "image"
     t.string "email"
+    t.string "user_id"
     t.string "phone_number"
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
@@ -71,6 +72,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_070124) do
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+    t.index ["user_id"], name: "index_users_on_user_id", unique: true
   end
 
   add_foreign_key "group_users", "groups"
