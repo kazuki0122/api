@@ -1,7 +1,7 @@
 class Api::V1::GroupsController < ApplicationController
   def index
-    # group = Group.find(params[:id])
-    # render json: {status: 'success', data: group }
+    groups =  current_api_v1_user.groups
+    render json: {status: 'success', data: groups }
   end
 
   def create
