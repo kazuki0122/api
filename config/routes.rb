@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :users, only: :index
       resources :friend_requests, only: [:index, :create]
       resources :friends, only: [:index, :create]
+      resources: messages, only: [:index, :create]
 
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/auth/registrations'
