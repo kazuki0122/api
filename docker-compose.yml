@@ -14,6 +14,7 @@ services:
       - 4306:3306
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      TZ: Asia/Tokyo
 
   api:
     container_name: api
@@ -23,8 +24,9 @@ services:
     command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes: 
       - '.:/early-bird'
-    environment: 
-      - 'DATABASE_PASSWORD=mysql'
+    environment:
+      DATABASE_PASSWORD: mysql
+      TZ: Asia/Tokyo
     tty: true
     stdin_open: true
     depends_on: 

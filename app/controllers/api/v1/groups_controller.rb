@@ -6,11 +6,11 @@ class Api::V1::GroupsController < ApplicationController
 
   def create
     group = Group.new(group_params)
-      if group.save
-        render json: { status: 'success', data: group }
-      else
-        render json: { status: 'error', data: group, error: group.errors.messages }
-      end
+    if group.save
+      render json: { status: 'success', data: group }
+    else
+      render json: { status: 'error', error: group.errors.messages }
+    end
   end
 
   def show
