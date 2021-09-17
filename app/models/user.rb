@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   has_many :friend_requests
   has_many :friends
+  has_many :messages
 
 
   # has_many :friend_requests, foreign_key: "to_id", class_name: 'FriendRequest'
