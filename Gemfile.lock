@@ -169,6 +169,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stripe (5.38.0)
     thor (1.1.0)
     thread_safe (0.3.6)
     tzinfo (1.2.9)
@@ -198,6 +199,7 @@ DEPENDENCIES
   rails (~> 6.0.4, >= 6.0.4.1)
   spring
   spring-watcher-listen (~> 2.0.0)
+  stripe
   tzinfo-data
 
 RUBY VERSION
