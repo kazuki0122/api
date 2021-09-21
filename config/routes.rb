@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :users, only: :index
       resources :friend_requests, only: [:index, :create]
       resources :friends, only: [:index, :create]
+      resources :rules, only: [:index, :create]
       resources :groups, only: [:index, :create, :show] do
         resources :messages, only: [:index, :create]
       end

@@ -6,6 +6,12 @@ RUN apt-get update && apt-get install -y \
     postgresql-client \
     yarn
 
+RUN apt-get install -y cron 
+
 WORKDIR /early-bird
 COPY Gemfile Gemfile.lock /early-bird/
 RUN bundle install
+RUN service cron start 
+
+# # cronをフォアグラウンド実行
+CMD ["cron", "-f"] 

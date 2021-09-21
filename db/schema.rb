@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_17_052956) do
+ActiveRecord::Schema.define(version: 2021_09_17_052957) do
 
   create_table "friend_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "from_id"
@@ -58,27 +58,28 @@ ActiveRecord::Schema.define(version: 2021_09_17_052956) do
 
   create_table "payments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "amount"
-    t.bigint "result_id"
-    t.boolean "payed", null: false
+    t.boolean "payed", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["result_id"], name: "index_payments_on_result_id"
   end
 
   create_table "results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "result", null: false
-    t.bigint "rules_id"
+    t.bigint "rule_id"
     t.bigint "user_id"
+    t.bigint "payment_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["rules_id"], name: "index_results_on_rules_id"
+    t.index ["payment_id"], name: "index_results_on_payment_id"
+    t.index ["rule_id"], name: "index_results_on_rule_id"
     t.index ["user_id"], name: "index_results_on_user_id"
   end
 
   create_table "rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "charge"
-    t.time "wakeup_time"
+    t.datetime "wakeup_time"
     t.bigint "group_id"
+    t.boolean "checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["group_id"], name: "index_rules_on_group_id"

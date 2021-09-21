@@ -1,7 +1,7 @@
 class Payment < ApplicationRecord
-  belongs_to :results
+  has_one :result
   with_options presence: true do
-    validates :payed
     validates :amount
   end
+  validates :payed, inclusion: { in: [true, false] }
 end
