@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2021_09_17_052957) do
 
   create_table "payments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "amount"
-    t.boolean "payed", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
