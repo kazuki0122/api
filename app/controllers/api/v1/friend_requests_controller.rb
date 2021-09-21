@@ -17,7 +17,6 @@ class Api::V1::FriendRequestsController < ApplicationController
       request_users =  FriendRequest.where(from_id: current_api_v1_user.id)
       # uniqは重複を避ける
       to_ids = request_users.map{|user| user.to_id}.uniq
-      # unito_ids = to_ids.uniq
       render json: { status: 'success', data: friend_request, request: to_ids }
     else
       render json: {status: 'error', data: friend_request, error: friend_request.errors.messages}

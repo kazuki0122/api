@@ -44,6 +44,9 @@ class Batch::Judgement < ApplicationRecord
         end
       else
         puts '全員課金です'
+        # 課金学
+        # payment = Payment.new(amount: )
+        # p payment.save!
       end
     end
   end

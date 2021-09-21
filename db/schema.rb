@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_17_052957) do
+ActiveRecord::Schema.define(version: 2021_09_21_082427) do
 
   create_table "friend_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "from_id"
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(version: 2021_09_17_052957) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["from_id"], name: "index_friends_on_from_id"
     t.index ["to_id"], name: "index_friends_on_to_id"
+  end
+
+  create_table "group_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "from_id"
+    t.bigint "to_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_id"], name: "index_group_requests_on_from_id"
+    t.index ["to_id"], name: "index_group_requests_on_to_id"
   end
 
   create_table "group_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
