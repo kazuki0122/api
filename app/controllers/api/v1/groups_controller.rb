@@ -6,6 +6,7 @@ class Api::V1::GroupsController < ApplicationController
 
   def create
     group = Group.new(group_params)
+    binding.pry
     if group.save
       render json: { status: 'success', data: group }
     else
