@@ -8,6 +8,10 @@ Rails.application.routes.draw do
       resources :rules, only: [:index, :create]
       resources :group_requests, only: [:index, :create]
       resources :groups, only: [:index, :create, :show] do
+        collection do
+          get 'enter_group'
+          delete 'refused_to_enter'
+        end
         resources :messages, only: [:index, :create]
       end
 

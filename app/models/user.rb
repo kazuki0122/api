@@ -7,13 +7,13 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  # グループ作成
   has_many :group_users
   has_many :groups, through: :group_users
 
-  has_many :group_requests
-  has_many :groups, through: :group_requests
+  has_many :creaters, :source => :creater
 
-  has_many :friend_requests
+  has_many :friend_requests 
   has_many :friends
   has_many :messages
 
