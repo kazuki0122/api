@@ -3,7 +3,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :test, only: :index
       resources :users, only: :index
-      resources :friend_requests, only: [:index, :create]
+      resources :friend_requests, only: [:index, :create] do
+        collection do
+          delete 'refusedRequest'
+        end
+      end
       resources :friends, only: [:index, :create]
       resources :rules, only: [:index, :create]
       resources :group_requests, only: [:index, :create]
