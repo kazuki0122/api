@@ -24,7 +24,8 @@ class User < ActiveRecord::Base
   validates :user_id, presence: true
   validates :user_id, format: { with: /\A[a-z0-9]{6,15}+\z/i, message: "は半角英数字混合で入力してください"  }
 
-
+  has_one :card, dependent: :destroy
+  
   validates :phone_number, presence: true
   validates :phone_number, numericality: {message: 'はハイフン無しにしてください'}
   validates :phone_number, length: { maximum: 11 , message: 'の値が不正です'}

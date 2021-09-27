@@ -43,5 +43,5 @@ gem 'pry-rails'
 gem 'devise'
 gem 'devise_token_auth'
 gem 'kaminari'
-gem "stripe"
 gem 'whenever', require: false
+gem 'payjp'
