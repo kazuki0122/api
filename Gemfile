@@ -45,3 +45,4 @@ gem 'devise_token_auth'
 gem 'kaminari'
 gem 'whenever', require: false
 gem 'payjp'
+gem 'dotenv-rails'
