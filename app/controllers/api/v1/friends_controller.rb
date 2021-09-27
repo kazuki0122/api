@@ -1,9 +1,7 @@
 class Api::V1::FriendsController < ApplicationController
   def index
-    from_records = Friend.where(from_id: current_api_v1_user)
-    from_friends = from_records.map{ |friend| friend.to }.uniq
-    to_records = Friend.where(to_id: current_api_v1_user)
-    to_friends = to_records.map{ |friend| friend.from }.uniq
+    from_friends = Friend.where(from_id: current_api_v1_user).map{ |friend| friend.to }.uniq
+    to_friends = Friend.where(to_id: current_api_v1_user).map{ |friend| friend.from }.uniq
     friends = from_friends + to_friends
     render json: {status: 'success', data: friends }
   end

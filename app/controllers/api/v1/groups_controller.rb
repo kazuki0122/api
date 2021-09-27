@@ -1,11 +1,16 @@
 class Api::V1::GroupsController < ApplicationController
   def index
     pending_users = GroupUser.where(status: 'pending', user_id: current_api_v1_user)
-    invite_groups = pending_users.map{|user| user.group}
+    # invite_groups = pending_users.map{|user| user.group}
+    invite_groups = []
+    pending_users.map do |user| 
+      hash = user.group.attributes 
+      hash[:create_user] = User.find(user.group.creater_id).name
+      invite_groups.push(hash)
+    end
     
     accepted_users = GroupUser.where(status: 'accepted', user_id: current_api_v1_user)
     join_groups = accepted_users.map{|user| user.group}
-
     render json: {
       status: 'success',
       pending_users: pending_users, 
