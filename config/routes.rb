@@ -3,9 +3,14 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :test, only: :index
       resources :users, only: :index
+      resources :cards, only: [:index, :create] do
+        collection do
+          get 'customer_create'
+        end
+      end
       resources :friend_requests, only: [:index, :create] do
         collection do
-          delete 'refusedRequest'
+          delete 'refused_request'
         end
       end
       resources :friends, only: [:index, :create]
