@@ -3,6 +3,6 @@ class Card < ApplicationRecord
   
   def self.customer_create
     customer = Stripe::Customer.create
-    return data = Stripe::SetupIntent.create(customer: customer['id'])
+    Stripe::SetupIntent.create(customer: customer['id'])
   end
 end

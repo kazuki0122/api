@@ -10,10 +10,12 @@ class Batch::Judgement < ApplicationRecord
 
   def self.judgement 
     puts DateTime.now
-    return unless Rule.where(checked: 0).present? 
-    unchecked_rules = Rule.where(checked: 0)
-    p "まだチェックされてないルール#{unchecked_rules}"
-    unchecked_rules.each do |rule|
+    return unless Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }.present?
+
+    today_unchecked_rules = Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }
+    p "まだチェックされてないルール#{today_unchecked_rules}"
+
+    today_unchecked_rules.each do |rule|
       # グループのレコードを取得
       group = Group.find(rule.group_id)
       # 時間内に送ったメッセージ全て
@@ -28,25 +30,57 @@ class Batch::Judgement < ApplicationRecord
 
       p "時間内にメッセージを送ったユーザーのid#{create_message_users_id}"
 
+      # グループに参加してるユーザーのidsを取得
+      participating_user_ids = group.group_users.where(status: 'accepted').map{|user| user.user_id}.sort
+      
+      # グループに参加してるユーザーのレコード 
+      participating_user = rule.group.group_users.where(status: 'accepted').map{|user| user.user}.sort
+
       # 処理を実行
-      if group.users.ids == create_message_users_id
+      if participating_user_ids == create_message_users_id
         puts "誰も課金されませんでした"
-        payment = Payment.new(amount:0,payed: false)
+        payment = Payment.new(amount: 0)
         p payment.save!
         p rule.checked
         p payment.id
         create_message_users_id.each do |user_id|
-        p "ユーザーのid#{user_id}"
-        p result = Result.new(result: true, rule_id: rule.id, user_id: user_id, payment_id: payment.id)
-        p result.save!
-        # チェック済みに変更
-        rule.update(checked: true)
+          p "ユーザーのid#{user_id}"
+          p result = Result.new(result: true, rule_id: rule.id, user_id: user_id, payment_id: payment.id)
+          p result.save!
+          # チェック済みに変更
         end
+        rule.update(checked: true)
       else
         puts '全員課金です'
-        # 課金学
-        # payment = Payment.new(amount: )
-        # p payment.save!
+        # 課金額
+        p payment = Payment.new(amount: rule.charge)
+        p payment.save!
+        participating_user_ids.each do |user_id|
+          p "ユーザーのid#{user_id}"
+          p result = Result.new(result: false, rule_id: rule.id, user_id: user_id, payment_id: payment.id)
+          puts "aaa"
+          p result.save!
+          # チェック済みに変更
+        end
+        begin
+          participating_user.each do |user|
+            intent = Stripe::PaymentIntent.create({
+              amount: rule.charge,
+              currency: 'jpy',
+              customer: user.card.customer_id,
+              payment_method: user.card.payment_method_id,
+              off_session: true,
+              confirm: true,
+              })
+            end
+            p rule.update(checked: true)
+        rescue Stripe::CardError => e
+          # Error code will be authentication_required if authentication is needed
+          puts "Error is: \#{e.error.code}"
+          payment_intent_id = e.error.payment_intent.id
+          payment_intent = Stripe::PaymentIntent.retrieve(payment_intent_id)
+          puts payment_intent.id
+        end
       end
     end
   end

@@ -13,8 +13,8 @@
 ActiveRecord::Schema.define(version: 2021_09_27_025538) do
 
   create_table "cards", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "card_token", null: false
-    t.string "customer_token", null: false
+    t.string "customer_id", null: false
+    t.string "payment_method_id"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
