@@ -1,6 +1,6 @@
 class Api::V1::MessagesController < ApplicationController
   def index
-    users_messages = Message.all.order(:created_at)
+    users_messages = Message.where(group_id: params[:group_id]).order(:created_at)
     all_users_messages = []
      users_messages.map do |message|
       hash_message = message.attributes
