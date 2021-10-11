@@ -3,9 +3,14 @@ class Api::V1::RulesController < ApplicationController
   def index
     group = Group.find(params[:id])
     rules = group.rules.find_by(checked: false)
+    if rules.nil?
+      rule_exist = false
+      return render json: { status: 'success', rule_exist: rule_exist}
+    end
+    rule_exist = true
     wakeup_time = rules.wakeup_time.strftime("%m月%d日%H時%M分")
     amount = rules.charge
-    render json: { status: 'success', data: rules, wakeup_time: wakeup_time, amount: amount}
+    render json: { status: 'success', data: rules, wakeup_time: wakeup_time, amount: amount, rule_exist: rule_exist}
   end
 
   def create

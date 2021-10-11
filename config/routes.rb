@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :test, only: :index
       resources :users, only: :index
+      resources :results, only: [:index]
       resources :cards, only: [:index, :create] do
         collection do
           get 'customer_create'

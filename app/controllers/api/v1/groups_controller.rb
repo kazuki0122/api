@@ -1,7 +1,7 @@
 class Api::V1::GroupsController < ApplicationController
+
   def index
     pending_users = GroupUser.where(status: 'pending', user_id: current_api_v1_user)
-    # invite_groups = pending_users.map{|user| user.group}
     invite_groups = []
     pending_users.map do |user| 
       hash = user.group.attributes 
@@ -18,7 +18,6 @@ class Api::V1::GroupsController < ApplicationController
       accepted_users: accepted_users,
       join_groups: join_groups,
     }
-
   end
 
   def create
@@ -40,13 +39,15 @@ class Api::V1::GroupsController < ApplicationController
 
   def enter_group
     current_user = current_api_v1_user
-    data = Group.enter_group(current_user)
+    group = Group.find(params[:id])
+    data = Group.enter_group(current_user, group)
     render  json: {status: 'success', data: data }
   end
   
   def refused_to_enter
     current_user = current_api_v1_user
-    data = Group.refused_to_enter(current_user)
+    group = Group.find(params[:id])
+    data = Group.refused_to_enter(current_user, group)
     render json: {status: 'success', data: data }
   end
 

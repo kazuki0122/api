@@ -57,10 +57,13 @@ class Batch::Judgement < ApplicationRecord
         p payment.save!
         participating_user_ids.each do |user_id|
           p "ユーザーのid#{user_id}"
-          p result = Result.new(result: false, rule_id: rule.id, user_id: user_id, payment_id: payment.id)
-          puts "aaa"
-          p result.save!
-          # チェック済みに変更
+          if create_message_users_id.include?(user_id)
+            p safe_user = Result.new(result: true, rule_id: rule.id, user_id: user_id, payment_id: payment.id)
+            p safe_user.save!
+          else
+            p out_user = Result.new(result: false, rule_id: rule.id, user_id: user_id, payment_id: payment.id)
+            p out_user.save!
+          end
         end
         begin
           participating_user.each do |user|

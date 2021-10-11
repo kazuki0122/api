@@ -7,12 +7,12 @@ class Group < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   has_many :rules
 
-  def self.enter_group(current_user)
-    GroupUser.find_by(user_id: current_user).update(status: "accepted")
+  def self.enter_group(current_user, group)
+    GroupUser.find_by(user_id: current_user, group_id: group.id).update(status: "accepted")
   end
 
-  def self.refused_to_enter(current_user)
-    GroupUser.find_by(user_id: current_user).delete
+  def self.refused_to_enter(current_user, group)
+    GroupUser.find_by(user_id: current_user, group_id: group.id).delete
   end
 end
  
