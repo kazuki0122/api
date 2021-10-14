@@ -6,6 +6,7 @@
 # Example:
 #
 # set :output, "/path/to/my/cron_log.log"
+set :environment, :production 
 
 require File.expand_path(File.dirname(__FILE__) + "/environment")
 ENV.each { |k, v| env(k, v) }
