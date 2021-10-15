@@ -7,7 +7,7 @@ end
 task :judge_scheduler => :environment do
   puts DateTime.now
   users = User.all
-  puts users
+  p users
   exit unless Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }.present?
 
   today_unchecked_rules = Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }
