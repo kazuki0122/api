@@ -4,11 +4,9 @@ task :test_scheduler => :environment do
   puts "it works."
 end
 
-task :send_reminders => :environment do
+task :judge_scheduler => :environment do
   puts DateTime.now
-  unless Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }.present?
-    return nil
-  end
+  exit unless Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }.present?
 
   today_unchecked_rules = Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }
   p "まだチェックされてないルール#{today_unchecked_rules}"
