@@ -7,7 +7,7 @@ end
 task :send_reminders => :environment do
   puts DateTime.now
   unless Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }.present?
-    return
+    return nil
   end
 
   today_unchecked_rules = Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }
