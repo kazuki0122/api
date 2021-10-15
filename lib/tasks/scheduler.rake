@@ -6,7 +6,9 @@ end
 
 task :send_reminders => :environment do
   puts DateTime.now
-  return unless Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }.present?
+  unless Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }.present?
+    return
+  end
 
   today_unchecked_rules = Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }
   p "まだチェックされてないルール#{today_unchecked_rules}"
