@@ -6,8 +6,6 @@ end
 
 task :judge_scheduler => :environment do
   puts DateTime.now
-  users = User.all
-  p users
   exit unless Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }.present?
 
   today_unchecked_rules = Rule.where(checked: 0).filter{|rule| rule.wakeup_time.to_date == DateTime.now.to_date }
@@ -16,7 +14,7 @@ task :judge_scheduler => :environment do
   today_unchecked_rules.each do |rule|
     # グループのレコードを取得
     group = Group.find(rule.group_id)
-    # 時間内に送ったメッセージ全て
+    # 時間内に送ったメッセージ全て    
     safe_messages = group.messages.filter do |message|  
       rule.wakeup_time >= message.created_at && rule.wakeup_time - 1800 <= message.created_at
     end

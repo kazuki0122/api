@@ -1,12 +1,13 @@
 class Api::V1::ResultsController < ApplicationController
   def index
     group = Group.find(params[:id])
-    if group.rules.last.results.empty? 
+    last_results = group.rules.where(checked: 1).last.results
+
+    if last_results.exits?
       data_exist = false 
       return render json: { status: 'success', data_exist: data_exist}
     end
 
-    last_results = group.rules.last.results
     data_exist = true
     if last_results.map{|result| result.result}.all?
       boolean = true
