@@ -3,7 +3,7 @@ class Api::V1::ResultsController < ApplicationController
     group = Group.find(params[:id])
     last_results = group.rules.where(checked: 1).last.results
 
-    if last_results.exits?
+    if last_results.exists?
       data_exist = false 
       return render json: { status: 'success', data_exist: data_exist}
     end
